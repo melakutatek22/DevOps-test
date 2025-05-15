@@ -1,6 +1,8 @@
 # server/Dockerfile
 FROM node:24-slim
-
+ENV NODE_OPTIONS="--max-old-space-size=2048"
+ENV NPM_CONFIG_FETCH_RETRIES=5
+ENV NPM_CONFIG_FETCH_TIMEOUT=60000
 WORKDIR /app
 
 COPY package*.json ./

@@ -1,15 +1,20 @@
-# client/Dockerfile
-FROM node:22-alpine AS build
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Install dependencies first for better caching
 COPY package*.json ./
-RUN npm install
+RUN npm install --force
 
+# Copy all files
 COPY . .
+
+# Verify file structure
+RUN ls -la && ls -la src/ && ls -la public/
+
+# Build the app
 RUN npm run build
 
 FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]

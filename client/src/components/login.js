@@ -1,6 +1,6 @@
-// client/src/components/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import './styles/Login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -14,29 +14,39 @@ function Login() {
         password
       });
       localStorage.setItem('token', res.data.token);
-      // Redirect to dashboard
+      alert('Login successful!');
     } catch (err) {
-      console.error(err.response.data);
+      console.error(err.response?.data || err.message);
+      alert('Login failed!');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input 
-        type="email" 
-        value={email} 
-        onChange={(e) => setEmail(e.target.value)} 
-        placeholder="Email" 
-        required 
-      />
-      <input 
-        type="password" 
-        value={password} 
-        onChange={(e) => setPassword(e.target.value)} 
-        placeholder="Password" 
-        required 
-      />
-      <button type="submit">Login</button>
-    </form>
+    <div className="login-container">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Email:</label>
+          <input 
+            type="email" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+            required 
+          />
+        </div>
+        <div className="form-group">
+          <label>Password:</label>
+          <input 
+            type="password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
   );
 }
+
+export default Login;
